@@ -71,13 +71,10 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
 // 新增網站：在這裡加一筆。cat 只能是 travel／tool／other。
 const SITES = [
   { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' },
-  { cat:'travel', icon:'☔', name:'大阪・京都雨天行程', desc:'2026 大阪京都下雨天也能走的行程安排。', url:'https://chian0501.github.io/OmiNote/travel/2026-osaka-kyoto-rain/' },
-  { cat:'travel', icon:'🐳', name:'頭城烏石港賞鯨指南', desc:'給家人看的決策版：方案比較、海況、適不適合報名、行前準備。', url:'https://chian0501.github.io/OmiNote/pages/toucheng-whale-watching/' },
   { cat:'tool', icon:'🗂️', name:'O-Ne 字卡工具入口', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
-  { cat:'tool', icon:'🧭', name:'O-Ne 工作台', desc:'頻道工作的指揮中心，看專案、技能與工具連結。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/command-center.html' },
-  { cat:'tool', icon:'🖼️', name:'O-Ne 縮圖品牌框', desc:'把縮圖套上 O-Ne 品牌框，檢查安全區。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/thumbnail-frame.html' },
-  { cat:'other', icon:'🗒️', name:'OmiNote 首頁', desc:'一頁式網站的舊入口，內容都已收進這個工具箱。', url:'https://chian0501.github.io/OmiNote/', repo:'OmiNote' }
 ];
+// 不再使用、也不要自動列出的 repo
+const HIDE = ['OmiNote'];
 const CATS = { travel:'旅行', tool:'O-Ne 頻道工具', other:'其他公開網站' };
 const DOT = { travel:'var(--travel)', tool:'var(--tool)', other:'var(--other)' };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -95,7 +92,7 @@ render(SITES);
 fetch('https://api.github.com/users/chian0501/repos?per_page=100')
   .then(r => r.ok ? r.json() : [])
   .then(repos => {
-    const known = new Set(SITES.map(s => s.repo).filter(Boolean).concat(['chian0501.github.io']));
+    const known = new Set(SITES.map(s => s.repo).filter(Boolean).concat(['chian0501.github.io'], HIDE));
     const extra = repos.filter(r => r.has_pages && !r.private && !r.fork && !known.has(r.name)).map(r => ({
       cat:'other', icon:'🌐', name:r.description || r.name, desc:'新開的公開網站（自動列出）。', url:`https://chian0501.github.io/${r.name}/`
     }));
