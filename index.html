@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Omi 工具箱</title>
+<meta name="description" content="Omi 放在 GitHub Pages 的公開網站與工具入口：旅行手帳、行程指南、O-Ne 頻道工具。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFCF6; --card:#FFFFFF; --ink:#3E3A39; --muted:#7A716B; --line:#EDE4D6;
+  --travel:#A8D3E6; --travel-ink:#1F5872; --tool:#DED2ED; --tool-ink:#5A3F7E;
+  --other:#B9DAA5; --other-ink:#3B6327; --accent:#8C5D00; --shadow:0 10px 28px rgba(110,84,40,.10);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#1E1C1A; --card:#292623; --ink:#EEE7DD; --muted:#AFA59A; --line:#3B3631;
+  --travel:#2E5466; --travel-ink:#CDE9F5; --tool:#4A3D5E; --tool-ink:#E8DDF6;
+  --other:#3C5531; --other-ink:#D7EDC9; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#1E1C1A; --card:#292623; --ink:#EEE7DD; --muted:#AFA59A; --line:#3B3631;
+  --travel:#2E5466; --travel-ink:#CDE9F5; --tool:#4A3D5E; --tool-ink:#E8DDF6;
+  --other:#3C5531; --other-ink:#D7EDC9; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Huninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.65}
+.wrap{max-width:980px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.logo{width:64px;height:64px;flex:none}
+h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:balance}
+.lead{margin:2px 0 0;color:var(--muted);max-width:60ch}
+.section{margin-top:36px}
+.section h2{font-size:1.15rem;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.section h2 .dot{width:12px;height:12px;border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;color:inherit;text-decoration:none;box-shadow:var(--shadow);transition:transform .18s ease, box-shadow .18s ease}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 16px 34px rgba(110,84,40,.16);outline:none}
+.card:focus-visible{border-color:var(--accent)}
+.top{display:flex;align-items:center;gap:10px}
+.icon{font-size:1.8rem;line-height:1}
+.chip{margin-left:auto;font-size:.75rem;letter-spacing:.06em;padding:3px 10px;border-radius:999px}
+.travel .chip{background:var(--travel);color:var(--travel-ink)}
+.tool .chip{background:var(--tool);color:var(--tool-ink)}
+.other .chip{background:var(--other);color:var(--other-ink)}
+.card h3{margin:0;font-size:1.08rem;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:.92rem;flex:1}
+.url{font-size:.75rem;color:var(--muted);overflow-wrap:anywhere;opacity:.85}
+.note{margin-top:40px;font-size:.85rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:16px}
+.empty{color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion: reduce){.card{transition:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="8" y="20" width="48" height="34" rx="8" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
+      <path d="M22 20v-5a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v5" fill="none" stroke="#3E3A39" stroke-width="2.5"/>
+      <rect x="8" y="32" width="48" height="6" fill="#F2A497" stroke="#3E3A39" stroke-width="2.5"/>
+      <rect x="27" y="29" width="10" height="12" rx="3" fill="#FFFCF6" stroke="#3E3A39" stroke-width="2.5"/>
+    </svg>
+    <div>
+      <h1>Omi 工具箱</h1>
+      <p class="lead">我放在 GitHub 上的公開網站都在這裡，點卡片就能打開。</p>
+    </div>
+  </header>
+  <main id="list"></main>
+  <p class="note">這頁會自動列出之後新開的公開網站（放在「其他公開網站」）。資料只放可公開的內容，私人資料不在這裡。</p>
+</div>
+<script>
+// 新增網站：在這裡加一筆。cat 只能是 travel／tool／other。
+const SITES = [
+  { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' },
+  { cat:'travel', icon:'☔', name:'大阪・京都雨天行程', desc:'2026 大阪京都下雨天也能走的行程安排。', url:'https://chian0501.github.io/OmiNote/travel/2026-osaka-kyoto-rain/' },
+  { cat:'travel', icon:'🐳', name:'頭城烏石港賞鯨指南', desc:'給家人看的決策版：方案比較、海況、適不適合報名、行前準備。', url:'https://chian0501.github.io/OmiNote/pages/toucheng-whale-watching/' },
+  { cat:'tool', icon:'🗂️', name:'O-Ne 字卡工具入口', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
+  { cat:'tool', icon:'🧭', name:'O-Ne 工作台', desc:'頻道工作的指揮中心，看專案、技能與工具連結。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/command-center.html' },
+  { cat:'tool', icon:'🖼️', name:'O-Ne 縮圖品牌框', desc:'把縮圖套上 O-Ne 品牌框，檢查安全區。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/thumbnail-frame.html' },
+  { cat:'other', icon:'🗒️', name:'OmiNote 首頁', desc:'一頁式網站的舊入口，內容都已收進這個工具箱。', url:'https://chian0501.github.io/OmiNote/', repo:'OmiNote' }
+];
+const CATS = { travel:'旅行', tool:'O-Ne 頻道工具', other:'其他公開網站' };
+const DOT = { travel:'var(--travel)', tool:'var(--tool)', other:'var(--other)' };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(list){
+  document.getElementById('list').innerHTML = Object.keys(CATS).map(cat => {
+    const items = list.filter(s => s.cat === cat);
+    if (!items.length) return '';
+    return `<section class="section"><h2><span class="dot" style="background:${DOT[cat]}"></span>${CATS[cat]}</h2><div class="grid">` +
+      items.map(s => `<a class="card ${cat}" href="${esc(s.url)}" target="_blank" rel="noopener"><div class="top"><span class="icon">${s.icon}</span><span class="chip">${CATS[cat].replace('O-Ne 頻道工具','頻道')}</span></div><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><span class="url">${esc(s.url.replace('https://',''))}</span></a>`).join('') +
+      '</div></section>';
+  }).join('');
+}
+render(SITES);
+// 自動補上：GitHub 上有開 Pages、但還沒寫進清單的公開 repo
+fetch('https://api.github.com/users/chian0501/repos?per_page=100')
+  .then(r => r.ok ? r.json() : [])
+  .then(repos => {
+    const known = new Set(SITES.map(s => s.repo).filter(Boolean).concat(['chian0501.github.io']));
+    const extra = repos.filter(r => r.has_pages && !r.private && !r.fork && !known.has(r.name)).map(r => ({
+      cat:'other', icon:'🌐', name:r.description || r.name, desc:'新開的公開網站（自動列出）。', url:`https://chian0501.github.io/${r.name}/`
+    }));
+    if (extra.length) render(SITES.concat(extra));
+  }).catch(() => {});
+</script>
+</body>
+</html>
