@@ -12,16 +12,16 @@
 :root{
   --paper:#FFFCF6; --card:#FFFFFF; --ink:#3E3A39; --muted:#7A716B; --line:#EDE4D6;
   --travel:#A8D3E6; --travel-ink:#1F5872; --tool:#DED2ED; --tool-ink:#5A3F7E;
-  --other:#B9DAA5; --other-ink:#3B6327; --accent:#8C5D00; --shadow:0 10px 28px rgba(110,84,40,.10);
+  --other:#B9DAA5; --other-ink:#3B6327; --daily:#F6D27A; --daily-ink:#6B4A00; --fortune:#F2A497; --fortune-ink:#7A2E22; --lock:#F1ECE4; --lock-ink:#6E655C; --accent:#8C5D00; --shadow:0 10px 28px rgba(110,84,40,.10);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --paper:#1E1C1A; --card:#292623; --ink:#EEE7DD; --muted:#AFA59A; --line:#3B3631;
   --travel:#2E5466; --travel-ink:#CDE9F5; --tool:#4A3D5E; --tool-ink:#E8DDF6;
-  --other:#3C5531; --other-ink:#D7EDC9; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark } }
+  --other:#3C5531; --other-ink:#D7EDC9; --daily:#5C4712; --daily-ink:#F7DE9A; --fortune:#5E2F28; --fortune-ink:#F8CFC6; --lock:#36312C; --lock-ink:#CFC5BA; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark } }
 :root[data-theme="dark"]{
   --paper:#1E1C1A; --card:#292623; --ink:#EEE7DD; --muted:#AFA59A; --line:#3B3631;
   --travel:#2E5466; --travel-ink:#CDE9F5; --tool:#4A3D5E; --tool-ink:#E8DDF6;
-  --other:#3C5531; --other-ink:#D7EDC9; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark }
+  --other:#3C5531; --other-ink:#D7EDC9; --daily:#5C4712; --daily-ink:#F7DE9A; --fortune:#5E2F28; --fortune-ink:#F8CFC6; --lock:#36312C; --lock-ink:#CFC5BA; --accent:#E6B455; --shadow:0 10px 28px rgba(0,0,0,.35); color-scheme:dark }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"Huninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.65}
 .wrap{max-width:980px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -38,10 +38,14 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
 .card:focus-visible{border-color:var(--accent)}
 .top{display:flex;align-items:center;gap:10px}
 .icon{font-size:1.8rem;line-height:1}
-.chip{margin-left:auto;font-size:.75rem;letter-spacing:.06em;padding:3px 10px;border-radius:999px}
+.chip{font-size:.75rem;letter-spacing:.06em;padding:3px 10px;border-radius:999px}
 .travel .chip{background:var(--travel);color:var(--travel-ink)}
 .tool .chip{background:var(--tool);color:var(--tool-ink)}
 .other .chip{background:var(--other);color:var(--other-ink)}
+.daily .chip{background:var(--daily);color:var(--daily-ink)}
+.fortune .chip{background:var(--fortune);color:var(--fortune-ink)}
+.chip.lock{margin-left:6px;background:var(--lock);color:var(--lock-ink)}
+.top .chip:first-of-type{margin-left:auto}
 .card h3{margin:0;font-size:1.08rem;text-wrap:balance}
 .card p{margin:0;color:var(--muted);font-size:.92rem;flex:1}
 .url{font-size:.75rem;color:var(--muted);overflow-wrap:anywhere;opacity:.85}
@@ -61,29 +65,37 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
     </svg>
     <div>
       <h1>Omi 工具箱</h1>
-      <p class="lead">我放在 GitHub 上的公開網站都在這裡，點卡片就能打開。</p>
+      <p class="lead">我做的網站與工具都在這裡。標「需登入」的要用我的帳號登入才打得開。</p>
     </div>
   </header>
   <main id="list"></main>
-  <p class="note">這頁會自動列出之後新開的公開網站（放在「其他公開網站」）。資料只放可公開的內容，私人資料不在這裡。</p>
+  <p class="note">之後在 GitHub 新開的公開網站會自動列在「其他公開網站」。需登入的頁面只有連結在這裡，內容不公開。</p>
 </div>
 <script>
 // 新增網站：在這裡加一筆。cat 只能是 travel／tool／other。
 const SITES = [
-  { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' },
-  { cat:'tool', icon:'🗂️', name:'O-Ne 字卡工具入口', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
+  { cat:'daily', icon:'📈', name:'Omi Stock Lab', desc:'每日自動選股。登入要在同一個瀏覽器做完。', url:'https://omi-stock-lab.pages.dev', lock:true },
+  { cat:'daily', icon:'🔮', name:'命盤合併版', desc:'八字、紫微、西洋占星、人類圖一次看。', url:'https://omi-chart-lab.pages.dev', lock:true },
+  { cat:'daily', icon:'☯️', name:'問境 觀照版', desc:'易經與塔羅，平常占卜用這個。', url:'https://claude.ai/artifact/KTBWuVEdqFExoW8jpeWM2r', lock:true },
+  { cat:'daily', icon:'🗂️', name:'O-Ne 字卡工具', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
+  { cat:'fortune', icon:'🐱', name:'三貓神諭卡', desc:'三隻貓的神諭卡，抽一張看今天的心情提醒。', url:'https://claude.ai/artifact/SwSxaR3fK2EaztePJD2mvt', lock:true },
+  { cat:'fortune', icon:'🃏', name:'玄老師牌桌', desc:'塔羅抽牌桌。', url:'https://claude.ai/artifact/8nU9uTg5kD8qfty235ntDo', lock:true },
+  { cat:'fortune', icon:'🪙', name:'玄老師卦桌', desc:'六爻搖卦桌。', url:'https://claude.ai/artifact/9nPjT19GdGMGX9CUWnGgab', lock:true },
+  { cat:'fortune', icon:'🌙', name:'玄老師筊杯', desc:'擲筊問事。', url:'https://claude.ai/artifact/5uGJxy8DiNEdYS837GvXY8', lock:true },
+  { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' }
 ];
 // 不再使用、也不要自動列出的 repo
 const HIDE = ['OmiNote'];
-const CATS = { travel:'旅行', tool:'O-Ne 頻道工具', other:'其他公開網站' };
-const DOT = { travel:'var(--travel)', tool:'var(--tool)', other:'var(--other)' };
+const CATS = { daily:'每天會開的', fortune:'命理小工具', travel:'旅行', other:'其他公開網站' };
+const CHIP = { daily:'常用', fortune:'命理', travel:'旅行', other:'網站' };
+const DOT = { daily:'var(--daily)', fortune:'var(--fortune)', travel:'var(--travel)', other:'var(--other)' };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function render(list){
   document.getElementById('list').innerHTML = Object.keys(CATS).map(cat => {
     const items = list.filter(s => s.cat === cat);
     if (!items.length) return '';
     return `<section class="section"><h2><span class="dot" style="background:${DOT[cat]}"></span>${CATS[cat]}</h2><div class="grid">` +
-      items.map(s => `<a class="card ${cat}" href="${esc(s.url)}" target="_blank" rel="noopener"><div class="top"><span class="icon">${s.icon}</span><span class="chip">${CATS[cat].replace('O-Ne 頻道工具','頻道')}</span></div><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><span class="url">${esc(s.url.replace('https://',''))}</span></a>`).join('') +
+      items.map(s => `<a class="card ${cat}" href="${esc(s.url)}" target="_blank" rel="noopener"><div class="top"><span class="icon">${s.icon}</span><span class="chip">${CHIP[cat]}</span>${s.lock ? '<span class="chip lock">🔒 需登入</span>' : ''}</div><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><span class="url">${esc(s.url.replace('https://','').replace(/(artifact\/\w{8})\w+/,'$1…'))}</span></a>`).join('') +
       '</div></section>';
   }).join('');
 }
