@@ -82,13 +82,14 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
   <p class="note">之後在 GitHub 新開的公開網站會自動列在「其他公開網站」。需登入的頁面只有連結在這裡，內容不公開。</p>
 </div>
 <script>
-// 新增網站：在這裡加一筆。cat 只能是 travel／tool／other。
+// 新增網站：在這裡加一筆。cat 只能是 daily／fortune／travel／other。
 const SITES = [
   { cat:'daily', icon:'📈', name:'Omi Stock Lab', desc:'每日自動選股。登入要在同一個瀏覽器做完。', url:'https://omi-stock-lab.pages.dev', lock:true },
   { cat:'daily', icon:'🔮', name:'命盤合併版', desc:'八字、紫微、西洋占星、人類圖一次看。', url:'https://omi-chart-lab.pages.dev', lock:true },
-  { cat:'daily', icon:'☯️', name:'問境 觀照版', desc:'塔羅、雷諾曼、易經六爻、梅花、擲筊，一站問完', url:'https://claude.ai/artifact/KTBWuVEdqFExoW8jpeWM2r', lock:true },
+  { cat:'daily', icon:'☯️', name:'問境', desc:'塔羅（萊德偉特原圖）、雷諾曼、易經六爻、梅花、擲筊，一站問完；紀錄換手機也看得到。', url:'https://omi-chart-lab.pages.dev/wenjing/', lock:true },
+  { cat:'daily', icon:'🐱', name:'三貓神諭卡', desc:'三隻貓的神諭卡，抽一張看今天的心情提醒。', url:'https://claude.ai/artifact/SwSxaR3fK2EaztePJD2mvt', lock:true },
   { cat:'daily', icon:'🗂️', name:'O-Ne 字卡工具', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
-  { cat:'fortune', icon:'🐱', name:'三貓神諭卡', desc:'三隻貓的神諭卡，抽一張看今天的心情提醒。', url:'https://claude.ai/artifact/SwSxaR3fK2EaztePJD2mvt', lock:true },
+  { cat:'fortune', icon:'🪷', name:'問境 觀照版（舊入口）', desc:'問境搬家前的版本，新版有狀況時備用。', url:'https://claude.ai/artifact/KTBWuVEdqFExoW8jpeWM2r', lock:true },
   { cat:'travel', icon:'🏠', name:'河家歡換屋計畫', desc:'換屋的先決條件、時程與比較整理。', url:'https://claude.ai/artifact/HUGC2eQTzvMVdKLLwRYNzt' },
   { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' }
 ];
