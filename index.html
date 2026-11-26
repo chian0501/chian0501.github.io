@@ -54,6 +54,19 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
 .other .chip{background:var(--other);color:var(--other-ink)}
 .daily .chip{background:var(--daily);color:var(--daily-ink)}
 .fortune .chip{background:var(--fortune);color:var(--fortune-ink)}
+.one .chip{background:var(--tool);color:var(--tool-ink)}
+.health .chip{background:var(--other);color:var(--other-ink)}
+.life .chip{background:var(--travel);color:var(--travel-ink)}
+.sys .chip{background:var(--other);color:var(--other-ink)}
+.other .chip{background:var(--lock);color:var(--lock-ink)}
+.grid.ai{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.aicard{padding:16px;gap:12px}
+.aicard .top h3{font-size:1rem;white-space:nowrap}
+.aicard .chip{white-space:nowrap}
+.aicard .chip.lock{margin-left:auto}
+.btns{display:flex;gap:8px}
+.btn{flex:1;text-align:center;padding:10px 8px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);text-decoration:none;font-size:.95rem;min-height:44px;display:flex;align-items:center;justify-content:center}
+.btn:hover,.btn:focus-visible{border-color:var(--accent);outline:none}
 .chip.lock{margin-left:6px;background:var(--lock);color:var(--lock-ink)}
 .top .chip:first-of-type{margin-left:auto}
 .card h3{margin:0;font-size:1.08rem;text-wrap:balance}
@@ -82,23 +95,46 @@ h1{font-size:clamp(1.8rem,5vw,2.5rem);margin:0;letter-spacing:.02em;text-wrap:ba
   <p class="note">之後在 GitHub 新開的公開網站會自動列在「其他公開網站」。需登入的頁面只有連結在這裡，內容不公開。</p>
 </div>
 <script>
-// 新增網站：在這裡加一筆。cat 只能是 daily／fortune／travel／other。
+// 新增網站：在這裡加一筆。cat 只能是 CATS 裡的鍵。
 const SITES = [
   { cat:'daily', icon:'📈', name:'Omi Stock Lab', desc:'每日自動選股。登入要在同一個瀏覽器做完。', url:'https://omi-stock-lab.pages.dev', lock:true },
   { cat:'daily', icon:'🔮', name:'命盤合併版', desc:'八字、紫微、西洋占星、人類圖一次看。', url:'https://omi-chart-lab.pages.dev', lock:true },
   { cat:'daily', icon:'☯️', name:'問境', desc:'塔羅（萊德偉特原圖）、雷諾曼、易經六爻、梅花、擲筊，一站問完；紀錄換手機也看得到。', url:'https://omi-chart-lab.pages.dev/wenjing/', lock:true },
   { cat:'daily', icon:'🐱', name:'三貓神諭卡', desc:'三隻貓的神諭卡，抽一張看今天的心情提醒。', url:'https://claude.ai/artifact/SwSxaR3fK2EaztePJD2mvt', lock:true },
   { cat:'daily', icon:'🗂️', name:'O-Ne 字卡工具', desc:'所有影片字卡的總入口：說明卡、對話卡、評分卡、結算卡等。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/' },
-  { cat:'fortune', icon:'🪷', name:'問境 觀照版（舊入口）', desc:'問境搬家前的版本，新版有狀況時備用。', url:'https://claude.ai/artifact/KTBWuVEdqFExoW8jpeWM2r', lock:true },
-  { cat:'travel', icon:'🏠', name:'河家歡換屋計畫', desc:'換屋的先決條件、時程與比較整理。', url:'https://claude.ai/artifact/HUGC2eQTzvMVdKLLwRYNzt' },
-  { cat:'travel', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' }
+  { cat:'one', icon:'🖼️', name:'縮圖框', desc:'縮圖最後一步，套上 O-Ne 品牌框。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/thumbnail-frame.html' },
+  { cat:'one', icon:'🎛️', name:'O-Ne 工作台 V1.3', desc:'候選版，還沒轉正式。', url:'https://chian0501.github.io/OmiNote/O-Ne-Tools/command-center.html' },
+  { cat:'one', icon:'🎬', name:'剪輯腳本卡', desc:'剪片前排段落、標重點用的腳本卡。', url:'https://claude.ai/artifact/3vZeJP5F4jDqh478rcMivt', lock:true },
+  { cat:'one', icon:'🧩', name:'O-Ne 頻道專案白板', desc:'頻道各支影片專案的白板總覽。', url:'https://claude.ai/artifact/D6i9Z44jdzNddn9bQfNhtY', lock:true },
+  { cat:'life', icon:'🏠', name:'河家歡換屋計畫', desc:'換屋的先決條件、時程與比較整理。', url:'https://claude.ai/artifact/HUGC2eQTzvMVdKLLwRYNzt' },
+  { cat:'life', icon:'🚢', name:'郵輪旅程手帳', desc:'12 月 MSC 沖繩航程：行事曆、地圖、預算與隨手記帳、攜帶清單。', url:'https://chian0501.github.io/cruise-planner/', repo:'cruise-planner' },
+  { cat:'health', icon:'🏃', name:'居家運動跟著做', desc:'跟著動作一步一步做的居家運動。', url:'https://claude.ai/artifact/LJZ9SsTLwUPgC8XhtZTnAY', lock:true },
+  { cat:'health', icon:'📖', name:'居家運動圖解', desc:'每個動作的圖解與要點。', url:'https://claude.ai/artifact/VMmE3ob3pChS57rKXQt2ad', lock:true },
+  { cat:'health', icon:'🥗', name:'減脂餐盤掃描', desc:'拍一盤餐，看份量搭配。', url:'https://claude.ai/artifact/1zoWWPjxh9G9JD2j2BQjmF', lock:true },
+  { cat:'sys', icon:'🗺️', name:'能幹貓地圖', desc:'各隻貓分工與入口的總地圖。', url:'https://claude.ai/artifact/18PXMwjLQac1faDJf8MSts', lock:true },
+  { cat:'sys', icon:'🚦', name:'能幹貓工作狀態', desc:'各條工作現在做到哪、卡在哪。', url:'https://claude.ai/artifact/6dH6VtsGWyPrWNoNV1C7Gq', lock:true },
+  { cat:'sys', icon:'⏰', name:'能幹貓排程總覽', desc:'所有自動排程一張圖看完。', url:'https://claude.ai/artifact/K6dpFEbk1PzSXYsjg3HWK1', lock:true }
+];
+// 各隻貓的 AI 專案入口（都要登入）
+const CATS_AI = [
+  { icon:'🐾', name:'TOP能幹貓', claude:'https://claude.ai/code/project/chan_01NAtARvESsbRegzP3Tc94wU', gpt:'https://chatgpt.com/g/g-p-6aea9b4374d081919eb16d01f4786fe6/project' },
+  { icon:'💰', name:'賺錢貓', claude:'https://claude.ai/code/project/chan_01226WBKqSmdZvgZ6mzdrDJy', gpt:'https://chatgpt.com/g/g-p-6afed0c526d4819182af8bd11b488279/project' },
+  { icon:'🧾', name:'財務貓', claude:'https://claude.ai/code/project/chan_01CKakRWJoHxPiaP2a6Wt64U', gpt:'https://chatgpt.com/g/g-p-6b052206ffc88191948b9d124a8df616/project' },
+  { icon:'🔮', name:'命理貓', claude:'https://claude.ai/code/project/chan_01N8dKP57ABZyczGXnFKpgQL', gpt:'https://chatgpt.com/g/g-p-6afed357383481919ea0a902d44f2fb5/project' },
+  { icon:'🌿', name:'保健貓', claude:'https://claude.ai/code/project/chan_01Hfx6mqBDWstZvyhuHBfytq', gpt:'https://chatgpt.com/g/g-p-6b0522c1293081918db7314e2274eb42/project' },
+  { icon:'🎥', name:'歐涅貓', claude:'https://claude.ai/code/project/chan_01ArS35rfVCMPZJTqJj9YTdJ', gpt:'https://chatgpt.com/g/g-p-6b05230a29748191934cbd590cbe580c/project' }
 ];
 // 不再使用、也不要自動列出的 repo
 const HIDE = ['OmiNote'];
-const CATS = { daily:'每天會開的', fortune:'命理小工具', travel:'生活與旅行', other:'其他公開網站' };
-const CHIP = { daily:'常用', fortune:'命理', travel:'生活', other:'網站' };
-const DOT = { daily:'var(--daily)', fortune:'var(--fortune)', travel:'var(--travel)', other:'var(--other)' };
+const CATS = { daily:'每天會開的', one:'歐涅貓・頻道工具', fortune:'命理貓', health:'保健貓', life:'生活與旅行', sys:'TOP能幹貓・系統看板', other:'其他公開網站' };
+const CHIP = { daily:'常用', one:'頻道', fortune:'命理', health:'保健', life:'生活', sys:'系統', other:'網站' };
+const DOT = { daily:'var(--daily)', one:'var(--tool)', fortune:'var(--fortune)', health:'var(--other)', life:'var(--travel)', sys:'var(--other)', other:'var(--lock)' };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function aiSection(){
+  return '<section class="section"><h2><span class="dot" style="background:var(--accent)"></span>各隻貓的 AI 專案</h2><div class="grid ai">' +
+    CATS_AI.map(c => `<div class="card aicard"><div class="top"><span class="icon">${c.icon}</span><h3>${esc(c.name)}</h3><span class="chip lock">🔒 需登入</span></div><div class="btns"><a class="btn" href="${esc(c.claude)}" target="_blank" rel="noopener">Claude</a><a class="btn" href="${esc(c.gpt)}" target="_blank" rel="noopener">ChatGPT</a></div></div>`).join('') +
+    '</div></section>';
+}
 function render(list){
   document.getElementById('list').innerHTML = Object.keys(CATS).map(cat => {
     const items = list.filter(s => s.cat === cat);
@@ -106,7 +142,7 @@ function render(list){
     return `<section class="section"><h2><span class="dot" style="background:${DOT[cat]}"></span>${CATS[cat]}</h2><div class="grid">` +
       items.map(s => `<a class="card ${cat}" href="${esc(s.url)}" target="_blank" rel="noopener"><div class="top"><span class="icon">${s.icon}</span><span class="chip">${CHIP[cat]}</span>${s.lock ? '<span class="chip lock">🔒 需登入</span>' : ''}</div><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><span class="url">${esc(s.url.replace('https://','').replace(/(artifact\/\w{8})\w+/,'$1…'))}</span></a>`).join('') +
       '</div></section>';
-  }).join('');
+  }).join('') + aiSection();
 }
 render(SITES);
 // 自動補上：GitHub 上有開 Pages、但還沒寫進清單的公開 repo
